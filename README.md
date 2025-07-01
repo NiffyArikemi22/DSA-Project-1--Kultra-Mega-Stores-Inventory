@@ -54,13 +54,10 @@ The following methodology using SQL and data analysis skills was applied
 | `Returned`        | Flag/indicator showing whether the item was returned (Yes/No) |
 
 
+#### Case Scenario I – Sales, Regions, Products, and Shipping
+1. Which product category had the highest sales?
+
 ``` sql
-Create Database DSA_KMS
-
-Select * from [KMS_Store ]
-
-----CASE SCENARIO 1
------QUE1..WHICH PRODUCT CATEGORY HAD THE HIGHEST SALES
 Select Product_Category, sum(Sales) AS TotalSales
 From KMS_Store
 Group by Product_Category
@@ -70,9 +67,10 @@ Select TOP 1 Product_Category, sum(Sales) AS TotalSales
 From KMS_Store
 Group by Product_Category
 Order by TotalSales desc
+```
 
-
----QUE2...WHAT ARE THE TOP 3 AND BOTTOM 3 REGION IN TERM OF SALES
+2. Top 3 and Bottom 3 regions in terms of sales
+``` sql
 ----Top 3 Region
 Select Top 3 Region, Sum (Sales) AS TOP_3_SALES
 From KMS_Store
@@ -85,14 +83,14 @@ From KMS_Store
 Group by Region
 Order by Bottom_3_SALES ASC
 
-
 Select Region, Sum (Sales) AS TOP_3_SALES
 From KMS_Store
 Group by Region
 Order by TOP_3_SALES desc
+```
 
-
-----QUE3...WHAT WERE THE TOTAL SALES OF APPLIANCE IN ONTARIO
+3. Total sales of appliances in Ontario
+``` SQL
 Select Region, Sum (Sales) AS TotalSales
 From KMS_Store
 Where Region = 'Ontario'
@@ -102,25 +100,24 @@ Group by Region
 Select Sum (Sales) AS TotalApplianceSales_In_Ontario
 From KMS_Store
 Where Product_Category = 'Appliances' And Region = 'Ontario'
+```
 
-
-----Ques 4...Advise the management of KMS on what to do to increase the revenue from the 
+4. Advice to increase revenue from bottom 10 customers
+```SQL
 ----bottom 10 customers
 Select TOP 10 Customer_Name, Product_Category, Product_Sub_Category, Sum (Sales) As TotalSales
 From KMS_Store
 Group by Customer_Name, Product_Category, Product_Sub_Category
 Order by TotalSales ASC
+```
+Advice (based on query):
+* Offer personalized discounts or bundled offers.
+* Follow up with targeted marketing campaigns.
+* Investigate if service/shipping issues led to low purchases.
+* Cross-sell products frequently bought by similar high-value customers.
 
--- Recommendations:
---1) Offer targeted promotions or loyalty rewards.
-
---2) Analyze their purchasing patterns and suggest suitable bundles.
-
---3) Improve delivery time or customer experience.
-
----4) Upsell higher-margin items they haven�t tried yet.
-
------Ques5... KMS Incurred the most Shipping Cost using which shipping method
+5. KMS incurred the most shipping cost using which shipping method?
+``` SQL
 Select Ship_Mode, Sum (Shipping_Cost) AS Most_Ship_Cost
 From KMS_Store
 Group by Ship_Mode
@@ -130,9 +127,10 @@ Select TOP 1 Ship_Mode, Sum (Shipping_Cost) AS Most_Ship_Cost
 From KMS_Store
 Group by Ship_Mode
 Order by MOst_Ship_Cost Desc
-
-----CASE SCENARIO II
-----QUE6...WHO ARE THE MOST VALUABLE CUSTOMERS, AND WHAT PRODUCTS OR SERVICE DO THEY TYPICALLY PURCHASE
+```
+Case Scenario II – Customer and Segment Analysis
+6. Most valuable customers and what they purchase
+```SQL
 Select Customer_Name, Sum(Sales) As TotalSales
 from KMS_Store
 Group by Customer_Name
@@ -151,39 +149,42 @@ AS MOST_PURCHASED_PRODUCTS
 FROM KMS_Store
 Group by Customer_Name, Product_Category
 Order by Customer_Name,MOST_PURCHASED_PRODUCTS Desc
+```
 
-
-------QUE7...WHICH SMALL BUSINESS CUSTOMER HAD THE HIGHEST SALES
+7. Which small business customer had the highest sales?
+```SQL
 Select Customer_Name, Sum (Sales) As Totalsales
 FROM KMS_Store
 Where Customer_Segment = 'Small Business'
 Group by Customer_Name
 Order by Totalsales Desc
+```
 
-
------Que8...WHICH CORPORATE CUSTOMER PLACED THE MOST NUMBER OF ORDERS IN 2009-2012
+8. Corporate customer with most orders (2009–2012)
+```SQL
 Select Customer_Name, Count(Order_ID) AS OrderCount
 From KMS_Store
 Where Customer_Segment = 'Corporate'
 And Order_Date Between '2009-01-01' And '2012-12-31'
 Group by Customer_Name
 Order by OrderCount Desc
-
------QUE9...WHICH CUSTOMER WAS THE MOST PROFITABLE ONE
+```
+9. Most profitable consumer customer
+``` SQL
 Select Customer_Name, sum(Profit) AS TotalProfit
 From KMS_Store
 Where Customer_Segment = 'Consumer'
 Group by Customer_Name
 Order by TotalProfit Desc
+```
+
+10. Which customer returned items, and what segment do they belong to?
 
 
------QUE10...WHICH CUSTOMER RETURNED ITEMS AND WHAT SEGMENT DO THEY BELONG TO
 
 
-
-
-
-------QUE11...If the delivery truck is the most economical but the slowest shipping method and 
+11. Evaluate shipping method vs. Order Priority
+ ``` SQL    
 ---Express Air is the fastest but the most expensive one, do you think the company 
 --appropriately spent shipping costs based on the Order Priority
 
@@ -202,4 +203,4 @@ Order by Order_Priority, Ship_Mode
 --Suggest policy changes to align shipping cost with urgency.
 
 --Use cheaper methods for standard/low priority unless otherwise justified.
-
+```
