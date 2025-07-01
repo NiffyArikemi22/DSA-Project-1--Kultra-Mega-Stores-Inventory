@@ -54,17 +54,8 @@ The following methodology using SQL and data analysis skills was applied
 | `Returned`        | Flag/indicator showing whether the item was returned (Yes/No) |
 
 
-
-Select Product_Category, sum(Sales) AS TotalSales
-From KMS_Store
-Group by Product_Category
-Order by TotalSales desc
-
-Select TOP 1 Product_Category, sum(Sales) AS TotalSales
-From KMS_Store
-Group by Product_Category
-Order by TotalSales desc
-```Create Database DSA_KMS
+``` sql
+Create Database DSA_KMS
 
 Select * from [KMS_Store ]
 
